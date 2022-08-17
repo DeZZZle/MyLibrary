@@ -20,3 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/test', function () {
+    dump(\App\Models\User::with('books')->first());
+    dump(\App\Models\Book::with(['author', 'genres'])->first());
+    dump(\App\Models\Genre::with(['books'])->get());
+
+});
