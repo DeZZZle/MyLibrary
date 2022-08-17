@@ -33,7 +33,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li><a href="{{ route('admin.book.index') }}" class="link-dark">Книги</a></li>
+                        <li><a href="{{ route('admin.genre.index') }}" class="link-dark">Жанры </a></li>
+                        <li><a href="{{ route('admin.user.index') }}" class="link-dark">Авторы</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

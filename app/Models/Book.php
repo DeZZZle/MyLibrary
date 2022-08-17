@@ -10,6 +10,11 @@ class Book extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'title',
+        'author_id'
+    ];
+
     public function author() {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }

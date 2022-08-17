@@ -20,9 +20,34 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/test', function () {
-    dump(\App\Models\User::with('books')->first());
-    dump(\App\Models\Book::with(['author', 'genres'])->first());
-    dump(\App\Models\Genre::with(['books'])->get());
 
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::group(['as' => 'book.', 'prefix' => 'book'], function () {
+        Route::get('/', [App\Http\Controllers\Admin\BookController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\BookController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\BookController::class, 'store'])->name('store');
+        Route::get('/{id}', [App\Http\Controllers\Admin\BookController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\BookController::class, 'edit'])->name('edit');
+        Route::patch('/{id}', [App\Http\Controllers\Admin\BookController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\BookController::class, 'destroy'])->name('destroy');
+    });
+    Route::group(['as' => 'genre.', 'prefix' => 'genre'], function () {
+        Route::get('/', [App\Http\Controllers\Admin\GenreController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\GenreController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\GenreController::class, 'store'])->name('store');
+        Route::get('/{id}', [App\Http\Controllers\Admin\GenreController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\GenreController::class, 'edit'])->name('edit');
+        Route::patch('/{id}', [App\Http\Controllers\Admin\GenreController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\GenreController::class, 'destroy'])->name('destroy');
+    });
+    Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
+        Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('store');
+        Route::get('/{id}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('edit');
+        Route::patch('/{id}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('destroy');
+    });
 });
+
