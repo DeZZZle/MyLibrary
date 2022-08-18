@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +17,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $roles = User::getRoles();
-        if ($roles['admin'] === Auth::user()->role)
+        if (Auth::user()->isAdmin())
             return $next($request);
         return abort(403);
     }

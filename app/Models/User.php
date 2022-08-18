@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -53,12 +54,9 @@ class User extends Authenticatable
     const ROLE_AUTHOR = 0;
     const ROLE_ADMIN = 1;
 
-    public function getRoles()
+    public function isAdmin(): bool
     {
-        return [
-            'author' => self::ROLE_AUTHOR,
-            'admin' => self::ROLE_ADMIN,
-        ];
+        return $this->role == self::ROLE_ADMIN;
     }
 
 }
